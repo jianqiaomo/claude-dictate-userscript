@@ -19,7 +19,9 @@ the composer compact.
 ## Install
 
 1. Install a userscript manager, such as Tampermonkey or Violentmonkey.
-2. Install the script from Greasy Fork (link coming soon), or open
+2. Install the script from
+   [Greasy Fork](https://greasyfork.org/en/scripts/599303-keep-dictate-button-while-typing-for-claude-ai-unofficial),
+   or open
    [keep-dictate-button.user.js](https://github.com/jianqiaomo/claude-dictate-userscript/raw/main/keep-dictate-button.user.js)
    and your manager will offer to install it.
 3. Reload claude.ai.
