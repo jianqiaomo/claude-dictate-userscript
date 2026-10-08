@@ -9,6 +9,20 @@ On Claude.ai, the Dictate button sits where the Send button appears. As soon
 as you type or dictate anything, Send replaces Dictate, so you can't continue
 dictating. You have to delete your text or send the message first.
 
+## Screenshots
+
+**1. Empty message box:** Dictate and voice mode are visible.
+
+![Empty message box](images/20261008134156.png)
+
+**2. After typing (the bug):** Send replaces Dictate, so you can't keep dictating.
+
+![Typing hides Dictate](images/20261008134217.png)
+
+**3. With this script:** Dictate stays next to Send.
+
+![With the script](images/20261008134238.png)
+
 ## The fix
 
 This script shows Claude.ai's own Dictate button next to Send instead of
