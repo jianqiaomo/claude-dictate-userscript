@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Keep Dictate button while typing (for Claude.ai, unofficial)
-// @namespace    https://jqmo.top/userscripts
-// @version      2.0
+// @namespace    https://jqmo.top/
+// @version      2.1
 // @description  Keeps Claude.ai's own Dictate button visible next to Send when the message box has text. May break if Claude.ai changes its page.
 // @author       Jianqiao Cambridge Mo
 // @homepageURL  https://github.com/jianqiaomo/claude-dictate-userscript
@@ -17,12 +17,18 @@ How Claude's composer works (from the page's HTML):
 
 - The trailing area has ONE grid cell holding two overlapping "slots":
     [data-cds-part="send-slot"]  -> Send button
-    [data-cds-part="idle-slot"]  -> Dictate + "Use voice mode" buttons
-- Box empty:    send-slot gets invisible opacity-0 pointer-events-none + inert
-- Box has text: idle-slot gets invisible opacity-0 pointer-events-none + inert
+    [data-cds-part="idle-slot"]  -> Dictate button (a split button with a
+                                    "Microphone" dropdown; older versions also
+                                    had a separate "Use voice mode" button)
+- Box empty:    send-slot is hidden (invisible opacity-0 pointer-events-none, and/or inert)
+- Box has text: idle-slot is hidden (invisible opacity-0 pointer-events-none, and/or inert)
 
 So the Dictate button never leaves the page; it's just hidden and disabled.
 This script un-hides it and puts it beside Send instead of on top of it.
+
+v2.1: the "hide voice mode" rule now matches by aria-label. In v2.0 it matched
+[data-cds="SplitDropdownButton"], which Claude.ai now uses for Dictate itself,
+so the script was hiding the very button it meant to keep.
 */
 
 (function () {
@@ -48,12 +54,13 @@ This script un-hides it and puts it beside Send instead of on top of it.
     }
 
     /* When the box is empty, Send is hidden anyway: remove it from the layout so it leaves no gap */
-    [data-cds-part="send-slot"][inert] {
+    [data-cds-part="send-slot"][inert],
+    [data-cds-part="send-slot"].invisible {
       display: none !important;
     }
 
-    /* When the box has text, hide "Use voice mode" so only Dictate + Send show (keeps it compact) */
-    .grid:has(> [data-cds-part="send-slot"]:not([inert])) > [data-cds-part="idle-slot"] [data-cds="SplitDropdownButton"] {
+    /* When the box has text, hide "Use voice mode" (if present) so only Dictate + Send show */
+    .grid:has(> [data-cds-part="send-slot"]:not([inert]):not(.invisible)) > [data-cds-part="idle-slot"] [aria-label*="voice mode" i] {
       display: none !important;
     }
   `;
